@@ -32,7 +32,7 @@
 <script>
 
 import $ from 'jquery'
-import axios from 'axios'
+import json from '../assets/response.json'
 
 export default {
     name: "pokedex-main",
@@ -42,7 +42,8 @@ export default {
         }
     },
     methods: {
-        getPokemon(id) {
+        /* Server is offline */
+        /* getPokemon(id) {
             axios.get(`http://ec2-44-203-132-48.compute-1.amazonaws.com:8082/pokemons/${id}`, { withCredentials: true })
                 .then(res => {
                     console.log("res name " + res.data.nome)
@@ -59,6 +60,18 @@ export default {
                     this.last_id = res.data.id;
                     $(".loading").css("display", "none")
                 });
+        } */
+        getPokemon(id){
+            $(".nome").text(json[id-1].nome + " #" + json[id-1].id);
+            $(".tipo").text(json[id-1].tipo);
+            $(".vida").text(json[id-1].hp);
+            $(".ataque").text(json[id-1].atk);
+            $(".defesa").text(json[id-1].def);
+            $(".sa").text(json[id-1].spa);
+            $(".sd").text(json[id-1].spd);
+            $(".velocidade").text(json[id-1].spe);
+            this.last_id = id;
+            $(".loading").css("display", "none")
         }
     },
     mounted() {
@@ -148,6 +161,19 @@ body {
     }
 }
 
+@media screen and (min-width: 769px) and (max-width: 811px) {
+    .status {
+        position: relative;
+        top: 40px !important;
+        left: -90px;
+        min-height: 500px;
+    }
+    
+    .status p{
+        width: 600px !important;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .tipo {
         width: 37.5vw;
@@ -157,6 +183,7 @@ body {
         position: relative;
         top: 110px !important;
         left: 15px;
+        min-height: 500px;
     }
 
     .arrows {
@@ -167,6 +194,10 @@ body {
 
     #img {
         margin: 30px;
+    }
+    .container {
+        overflow-y: scroll;
+        height: calc(100% + 50px);
     }
 }
 
